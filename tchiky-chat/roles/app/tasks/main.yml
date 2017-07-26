@@ -1,0 +1,6 @@
+- name: Copy app package
+  unarchive:
+    src: tchiky-chat.tar.gz
+    dest: "{{ app_dir }}"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"

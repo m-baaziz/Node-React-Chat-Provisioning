@@ -1,0 +1,10 @@
+- name: Install and start Tchiky-Chat server
+  hosts: webservers
+  remote_user: user
+  become: true
+  gather_facts: true
+
+  roles:
+    - nginx
+    - docker
+    - app

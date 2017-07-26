@@ -1,0 +1,21 @@
+---
+# nginx
+
+nginx_port: 80
+
+# app
+
+app_port: 8080
+app_dir: /home/user
+app_path: "{{ app_dir }}/tchiky-chat"
+app_build_filename: build.js
+forever_config_filename: forever_config.json
+backend_webpack_config_filename: backend_webpack.config.js
+frontend_webpack_config_filename: frontend_webpack.config.js
+
+
+# docker
+
+docker_apt_repository: "deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_lsb.codename }} stable"
+docker_compose_version: "1.14.0"
+docker_compose_path: /usr/local/bin/docker-compose

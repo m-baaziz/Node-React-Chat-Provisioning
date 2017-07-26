@@ -1,0 +1,10 @@
+- name: Install Nginx
+  hosts: webservers
+  remote_user: user
+  become: true
+  gather_facts: false
+
+  roles:
+    - nginx
+    - app
+    - nodejs

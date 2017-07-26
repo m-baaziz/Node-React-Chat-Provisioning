@@ -1,0 +1,23 @@
+- include: setup-Debian.yml
+
+- name: Install docker
+  package:
+    name: docker-ce
+    state: present
+
+- name: Ensure pip is installed
+  apt:
+    name: python-pip
+    state: present
+
+- name: Install Docker Python library
+  pip:
+    name: docker-py
+
+- name: Ensure docker service is started and enabled at boot
+  service:
+    name: docker
+    state: started
+    enabled: yes
+
+- include: docker-compose.yml

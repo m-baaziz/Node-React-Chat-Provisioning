@@ -1,0 +1,22 @@
+---
+# nginx
+
+nginx_port: 80
+
+# app
+
+app_port: 8080
+app_dir: /home/user
+app_path: "{{ app_dir }}/tchiky-chat"
+app_build_filename: build.js
+forever_config_filename: forever_config.json
+backend_webpack_config_filename: backend_webpack.config.js
+frontend_webpack_config_filename: frontend_webpack.config.js
+
+
+# nodejs
+
+nodejs_version: 6.x
+npm_config_unsafe_perm: false
+npm_global_path_prefix: /usr/local/lib/npm
+npm_global_packages: [forever, webpack, babel-core]

@@ -1,0 +1,36 @@
+- name: Clear apt-get files
+  file:
+    path: /var/lib/apt/lists/*
+    state: absent
+  become: true
+
+- name: Clean apt-get
+  apt:
+    autoclean: true
+
+- name: Ensure old versions of Docker are not installed.
+  apt:
+    name: '{{ item }}'
+    state: absent
+  with_items:
+    - docker
+    - docker-engine
+
+- name: Ensure apt-transport-https is installed
+  apt: 
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - apt-transport-https
+    - ca-certificates
+    - curl
+    - software-properties-common
+
+- name: Add docker apt key
+  shell: "curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -"
+
+- name: Add docker repository
+  apt_repository:
+    repo: "{{ docker_apt_repository }}"
+    state: present
+    update_cache: yes

@@ -1,0 +1,8 @@
+- name: Re-Deploy Tchiky-Chat app
+  hosts: webservers
+  remote_user: user
+  become: true
+  gather_facts: true
+
+  roles:
+    - app

@@ -1,0 +1,43 @@
+- include: setup-debian.yml
+
+- name: Create npm global directory
+  file:
+    path: "{{ npm_global_path_prefix }}"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    state: directory
+  become: true
+
+- name: Set up env variables 
+  template: 
+    src: env.j2
+    dest: /etc/profile.d/npm.sh
+    mode: 0644
+  become: true
+
+- name: Install global npm packages
+  npm:
+    name: "{{ item }}"
+    version: "latest"
+    state: "latest"
+    global: true
+  environment:
+    NPM_CONFIG_PREFIX: "{{ npm_global_path_prefix }}"
+    NODE_PATH: "{{ npm_global_path_prefix }}/lib/node_modules"
+    NPM_CONFIG_UNSAFE_PERM: "{{ npm_config_unsafe_perm }}"
+  with_items: "{{ npm_global_packages }}"
+
+
+- name: Install package.json
+  npm:
+    path: "{{ app_path }}"
+  become: true
+  become_user: user
+
+- name: Compile backend
+  shell: "APP_PATH={{ app_path }} {{ npm_global_path_prefix }}/bin/webpack --config {{ app_path }}/{{ backend_webpack_config_filename }}"
+  args:
+    chdir: "{{ app_path }}/"
+
+- name: Start forever
+  shell: "APP_PATH={{ app_path }} {{ npm_global_path_prefix }}/bin/forever start {{ app_path }}/{{ forever_config_filename }}"
